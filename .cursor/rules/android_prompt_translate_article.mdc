@@ -1,0 +1,143 @@
+---
+description: 翻译 Android 英文文章
+globs:
+alwaysApply: false
+---
+# 翻译 Android 英文文章
+
+## 任务描述
+
+你的任务是将我提供的 Android 英文技术文章准确翻译成中文。请保持翻译的专业性和技术准确性，确保使用符合中文 Android 开发社区习惯的术语和表达方式。翻译结果面向具有 Android 开发基础知识的中文开发者。直接提供完整的中文翻译内容，无需添加额外说明或解释翻译过程。
+
+## 具体要求
+
+- 将英文文章翻译成地道、流畅、符合中文表达习惯的技术文档
+- 严格保持原文的技术准确性、专业性和逻辑关系
+- 代码块内容处理：
+  - 代码和输出结果保留英文原样，不翻译
+  - 代码注释需要翻译成中文，保持技术准确性
+  - 翻译注释时保持原注释的缩进和格式
+  - 保留或添加代码块的语言标记（如：```kotlin、```java、```xml 等）
+- Android 专业术语处理：
+  - 使用中文 Android 社区或官方认可的术语翻译
+  - 无官方中文翻译时保留英文原词（如："RecyclerView"、"ViewModel" 等）
+  - API、类名、方法名等保持英文原样（如：`TextView`、`onCreate()`、`LiveData` 等）
+- 完整保留原文的段落结构、标题层级和格式
+- 专有名词首次出现时采用"中文（英文）"的格式标注
+  - 例如：生命周期（Lifecycle）、视图绑定（View Binding）
+- 确保整体翻译上下文连贯，避免逐句机械翻译导致的语义不通
+- 当遇到无法确定含义的术语时，保留英文并用方括号标注可能的解释
+- 输出格式：仅提供完整翻译内容，不包含翻译过程说明或其他额外注释
+
+## 术语参考
+
+### 推荐翻译术语
+
+以下术语应翻译成对应的中文：
+
+| 英文术语 | 中文翻译 |
+|---------|---------|
+| Activity | 活动 |
+| Fragment | 片段 |
+| Service | 服务 |
+| Broadcast Receiver | 广播接收器 |
+| Content Provider | 内容提供器 |
+| Intent | 意图 |
+| Layout | 布局 |
+| View | 视图 |
+| View Group | 视图组 |
+| Lifecycle | 生命周期 |
+| State | 状态 |
+| Side Effect | 副作用 |
+| Material Design | Material 设计 |
+| Navigation | 导航 |
+| Animation | 动画 |
+| Custom View | 自定义视图 |
+| Text Style | 文本样式 |
+| Shape | 形状 |
+| Color | 颜色 |
+| Typography | 排版 |
+| Padding | 内边距 |
+| Margin | 外边距 |
+| Constraint | 约束 |
+| Gesture | 手势 |
+| Accessibility | 无障碍 |
+| Theme | 主题 |
+| Drawable | 可绘制对象 |
+| Scrolling | 滚动 |
+| Canvas | 画布 |
+| Immutability | 不可变性 |
+| Dependency Injection | 依赖注入 |
+| Coroutine | 协程 |
+| Extension Function | 扩展函数 |
+| Null Safety | 空安全 |
+| Lazy Initialization | 惰性初始化 |
+| Companion Object | 伴生对象 |
+| Sealed Class | 密封类 |
+| Data Class | 数据类 |
+| Higher-Order Function | 高阶函数 |
+| Lambda Expression | Lambda 表达式 |
+| Extension Function | 扩展函数 |
+| Scope Function | 作用域函数 |
+| Property Delegate | 属性委托 |
+| Unit Test | 单元测试 |
+| Integration Test | 集成测试 |
+| UI Test | UI 测试 |
+| Continuous Integration | 持续集成 |
+
+### 保留原文术语
+
+以下术语通常保留英文原文，无需翻译：
+
+| 英文术语 | 使用方式 |
+|---------|---------|
+| Android | 直接使用 Android |
+| Kotlin | 直接使用 Kotlin |
+| Java | 直接使用 Java |
+| Gradle | 直接使用 Gradle |
+| XML | 直接使用 XML |
+| SDK | 直接使用 SDK |
+| API | 直接使用 API |
+| RecyclerView | 直接使用 RecyclerView |
+| LinearLayout | 直接使用 LinearLayout |
+| RelativeLayout | 直接使用 RelativeLayout |
+| ConstraintLayout | 直接使用 ConstraintLayout |
+| TextView | 直接使用 TextView |
+| EditText | 直接使用 EditText |
+| Button | 直接使用 Button |
+| ImageView | 直接使用 ImageView |
+| ListView | 直接使用 ListView |
+| GridView | 直接使用 GridView |
+| ViewPager | 直接使用 ViewPager |
+| ViewModel | 直接使用 ViewModel |
+| LiveData | 直接使用 LiveData |
+| Flow | 可使用"流"或直接使用 Flow |
+| Room | 直接使用 Room |
+| DataStore | 直接使用 DataStore |
+| SharedPreferences | 直接使用 SharedPreferences |
+| Dagger | 直接使用 Dagger |
+| Hilt | 直接使用 Hilt |
+| Koin | 直接使用 Koin |
+| Retrofit | 直接使用 Retrofit |
+| OkHttp | 直接使用 OkHttp |
+| Gson | 直接使用 Gson |
+| Moshi | 直接使用 Moshi |
+| Jackson | 直接使用 Jackson |
+| Glide | 直接使用 Glide |
+| Coil | 直接使用 Coil |
+| Picasso | 直接使用 Picasso |
+| Firebase | 直接使用 Firebase |
+| Google Play Services | 直接使用 Google Play Services |
+| JUnit | 直接使用 JUnit |
+| Espresso | 直接使用 Espresso |
+| MockK | 直接使用 MockK |
+| Jetpack Compose | 直接使用 Jetpack Compose |
+| AppCompat | 直接使用 AppCompat |
+| Material Components | 直接使用 Material Components |
+| WorkManager | 直接使用 WorkManager |
+| Navigation Component | 直接使用 Navigation Component |
+| Paging | 直接使用 Paging |
+| CameraX | 直接使用 CameraX |
+| ARCore | 直接使用 ARCore |
+| ExoPlayer | 直接使用 ExoPlayer |
+| MediaPlayer | 直接使用 MediaPlayer |
