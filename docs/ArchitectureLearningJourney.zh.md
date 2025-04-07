@@ -2,7 +2,6 @@
 
 在这个学习之旅中，你将了解 Now in Android 应用架构：其层次、关键类及它们之间的交互。
 
-
 ## 目标和要求
 
 应用架构的目标是：
@@ -13,17 +12,15 @@
 * 便于在开发者机器上和使用持续集成 (CI) 进行本地和仪器测试。
 * 最小化构建时间。
 
-
 ## 架构概述
 
 应用架构有三层：[数据层](https://developer.android.com/jetpack/guide/data-layer)、[领域层](https://developer.android.com/jetpack/guide/domain-layer)和[UI层](https://developer.android.com/jetpack/guide/ui-layer)。
-
 
 <center>
 <img src="images/architecture-1-overall.png" width="600px" alt="展示整体应用架构的图表" />
 </center>
 
-> [!注意]  
+> [!Note]  
 > 官方Android架构与其他架构（如"Clean Architecture"）不同。其他架构中的概念可能不适用于此处，或以不同方式应用。[这里有更多讨论](https://github.com/android/nowinandroid/discussions/1273)。
 
 该架构采用具有[单向数据流](https://developer.android.com/jetpack/guide/ui-layer#udf)的响应式编程模型。以数据层为底层，关键概念是：
@@ -34,19 +31,15 @@
 
 数据流通过使用[Kotlin Flows](https://developer.android.com/kotlin/flow)实现的流来实现。
 
-
 ### 示例：在"为你推荐"屏幕上显示新闻
 
 首次运行应用时，它将尝试从远程服务器加载新闻资源列表（当选择`prod`构建风味时，`demo`构建将使用本地数据）。加载后，这些内容会根据用户选择的兴趣展示给用户。
 
 下图显示了发生的事件以及相关对象之间数据流动的方式。
 
-
 ![展示新闻资源如何在"为你推荐"屏幕上显示的图表](images/architecture-2-example.png "展示新闻资源如何在"为你推荐"屏幕上显示的图表")
 
-
 以下是每个步骤发生的情况。找到相关代码的最简单方法是将项目加载到Android Studio并搜索"代码"列中的文本（方便的快捷键：按两次<kbd>⇧ SHIFT</kbd>）。
-
 
 <table>
   <tr>
@@ -157,21 +150,15 @@
   </tr>
 </table>
 
-
-
 ## 数据层
 
 数据层被实现为应用数据和业务逻辑的离线优先源。它是应用中所有数据的真实来源。
 
-
-
 ![展示数据层架构的图表](images/architecture-3-data-layer.png "展示数据层架构的图表")
-
 
 每个仓库都有自己的模型。例如，`TopicsRepository`有一个`Topic`模型，而`NewsRepository`有一个`NewsResource`模型。
 
 仓库是其他层的公共API，它们提供_唯一_访问应用数据的方式。仓库通常提供一个或多个用于读取和写入数据的方法。
-
 
 ### 读取数据
 
@@ -185,7 +172,6 @@ _示例：读取主题列表_
 
 每当主题列表发生变化（例如，添加新主题时），更新后的`List<Topic>`会被发送到流中。
 
-
 ### 写入数据
 
 要写入数据，仓库提供挂起函数。由调用者确保其执行被适当地范围化。
@@ -194,11 +180,9 @@ _示例：关注主题_
 
 只需使用用户希望关注的主题的ID和`followed=true`调用`UserDataRepository.toggleFollowedTopicId`来表示应该关注该主题（使用`false`取消关注主题）。
 
-
 ### 数据源
 
 一个仓库可能依赖一个或多个数据源。例如，`OfflineFirstTopicsRepository`依赖以下数据源：
-
 
 <table>
   <tr>
@@ -235,8 +219,6 @@ _示例：关注主题_
   </tr>
 </table>
 
-
-
 ### 数据同步
 
 仓库负责协调本地存储与远程源之间的数据。一旦从远程数据源获取数据，它会立即写入本地存储。更新后的数据从本地存储（Room）发送到相关的数据流，并被任何监听的客户端接收。
@@ -248,6 +230,7 @@ _示例：关注主题_
 有关数据同步的示例，请参见`OfflineFirstNewsRepository.syncWith`。
 
 ## 领域层
+
 [领域层](https://developer.android.com/topic/architecture/domain-layer)包含用例。这些是具有单个可调用方法（`operator fun invoke`）的类，包含业务逻辑。
 
 这些用例用于简化并消除ViewModel中的重复逻辑。它们通常组合和转换来自仓库的数据。
@@ -265,9 +248,7 @@ _示例：关注主题_
 
 ViewModel从用例和仓库接收数据流，并将其转换为UI状态。UI元素反映这种状态，并提供用户与应用交互的方式。这些交互作为事件传递给ViewModel进行处理。
 
-
 ![展示UI层架构的图表](images/architecture-4-ui-layer.png "展示UI层架构的图表")
-
 
 ### 建模UI状态
 
@@ -285,7 +266,6 @@ UI状态使用接口和不可变数据类作为密封层次结构建模。状态
 
 `feedState`传递给`ForYouScreen`可组合函数，后者处理这两种状态。
 
-
 ### 将流转换为UI状态
 
 ViewModel从一个或多个用例或仓库接收数据流作为冷[flows](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/index.html)。这些流被[组合](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/combine.html)在一起，或简单地[映射](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/map.html)，以产生单个UI状态流。然后使用[stateIn](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/state-in.html)将这个单一流转换为热流。转换为状态流使UI元素能够从流中读取最后已知的状态。
@@ -293,7 +273,6 @@ ViewModel从一个或多个用例或仓库接收数据流作为冷[flows](https:
 **示例：显示已关注的主题**
 
 `InterestsViewModel`将`uiState`公开为`StateFlow<InterestsUiState>`。这个热流是通过获取由`GetFollowableTopicsUseCase`提供的`List<FollowableTopic>`的冷流创建的。每次发出新列表时，它都会转换为暴露给UI的`InterestsUiState.Interests`状态。
-
 
 ### 处理用户交互
 
@@ -303,9 +282,8 @@ ViewModel从一个或多个用例或仓库接收数据流作为冷[flows](https:
 
 `InterestsScreen`接受一个名为`followTopic`的lambda表达式，该表达式由`InterestsViewModel.followTopic`提供。每当用户点击要关注的主题时，都会调用此方法。然后ViewModel通过通知用户数据仓库来处理此操作。
 
-
 ## 进一步阅读
 
 [应用架构指南](https://developer.android.com/topic/architecture)
 
-[Jetpack Compose](https://developer.android.com/jetpack/compose) 
+[Jetpack Compose](https://developer.android.com/jetpack/compose)

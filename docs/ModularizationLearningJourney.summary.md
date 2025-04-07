@@ -1,4 +1,4 @@
-# Android 模块化学习之旅总结
+# 《模块化学习之旅》总结
 
 ## 文字摘要
 
@@ -21,11 +21,11 @@ Now in Android 应用的模块化策略是将单体代码库拆分为松散耦�
 Now in Android 应用采用了以下模块结构：
 
 1. **app 模块**：作为应用的入口点，包含应用级别组件（如 MainActivity、NiaApp）和导航逻辑，依赖所有 feature 模块和必要的 core 模块
-   
+
 2. **feature 模块**：每个模块负责应用中的一个特定功能或用户旅程，如：
    - `feature:topic`：处理主题信息展示
    - `feature:foryou`：处理用户新闻订阅和首次运行引导
-   
+
 3. **core 模块**：为应用提供共享的基础功能，如：
    - `core:data`：数据管理和仓库
    - `core:designsystem`：设计系统和 UI 组件
@@ -139,4 +139,4 @@ flowchart LR
     F --> F3["自定义策略"]
     F --> F4["持续评估"]
     F --> F5["社区反馈"]
-``` 
+```
