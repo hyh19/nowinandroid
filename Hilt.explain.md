@@ -556,6 +556,7 @@ abstract class TestFeatureModule {
 #### iOS 的 Resolver/Swinject
 
 **iOS Swinject**：
+
 ```swift
 // 注册服务
 let container = Container()
@@ -568,6 +569,7 @@ let apiService = container.resolve(APIServiceProtocol.self)!
 ```
 
 **Hilt**：
+
 ```kotlin
 // 定义模块
 @Module
@@ -589,6 +591,7 @@ class MainActivity : AppCompatActivity() {
 #### Flutter 的 GetIt/Injectable
 
 **Flutter GetIt**：
+
 ```dart
 // 设置服务定位器
 final getIt = GetIt.instance;
@@ -602,6 +605,7 @@ final apiService = getIt<ApiService>();
 ```
 
 **Hilt**：
+
 ```kotlin
 // 与上面相同，但编译时验证
 @HiltViewModel
@@ -615,6 +619,7 @@ class MainViewModel @Inject constructor(
 #### 前端的依赖注入
 
 **Angular**：
+
 ```typescript
 @Injectable({
   providedIn: 'root'
@@ -632,6 +637,7 @@ export class AppComponent {
 ```
 
 **Hilt**：
+
 ```kotlin
 @Singleton
 class ApiService @Inject constructor() {
@@ -940,7 +946,7 @@ Hilt 的核心 API 包括：
    - `@HiltAndroidTest`：标记 Hilt 测试类
    - `HiltAndroidRule`：测试规则
    - `@UninstallModules`：在测试中移除模块
-   - `@TestInstallIn`：在测试中替换模块 
+   - `@TestInstallIn`：在测试中替换模块
 
 ### 进阶用法
 
@@ -1615,7 +1621,7 @@ class MainActivityTest {
 
 4. **发布前验证**：
    - 运行 Hilt 相关的静态分析检查
-   - 验证依赖图的一致性 
+   - 验证依赖图的一致性
 
 ## 源码分析
 
@@ -1760,6 +1766,7 @@ Hilt 的性能特点：
 - **内存使用**：对于单例和作用域对象，需要注意潜在的内存占用。
 
 基准测试数据表明，与其他依赖注入框架相比：
+
 - 相比 Koin（运行时反射）快约 4-8 倍
 - 与手动依赖注入性能接近
 - 初始化时间略长于手动注入，但运行时性能几乎相同
@@ -1872,7 +1879,7 @@ Hilt 的主要版本演进：
 1. **1.x → 2.x**：
    - 重命名某些组件（如 `ApplicationComponent` → `SingletonComponent`）
    - 更好的 ViewModel 支持
-   
+
 2. **2.35.0 → 2.36.0**：
    - 添加 `@HiltViewModel` 支持
    - 弃用 `@ViewModelInject`
@@ -2038,6 +2045,7 @@ class MainActivity : AppCompatActivity() {
 错误：`java.lang.IllegalStateException: Hilt Activity must be attached to an @HiltAndroidApp Application`
 
 解决方案：
+
 - 确保 Application 类添加了 `@HiltAndroidApp` 注解
 - 检查 AndroidManifest.xml 中是否正确声明了自定义 Application
 
@@ -2046,8 +2054,10 @@ class MainActivity : AppCompatActivity() {
 错误：`Dependency cycle found: ...`
 
 解决方案：
+
 - 重构设计，消除循环依赖
 - 使用 Provider<T> 或 Lazy<T> 打破循环
+
 ```kotlin
 class A @Inject constructor(private val bProvider: Provider<B>)
 class B @Inject constructor(private val a: A)
@@ -2058,8 +2068,10 @@ class B @Inject constructor(private val a: A)
 错误：`[Dagger/MissingBinding] ... cannot be provided without an @Provides-annotated method.`
 
 解决方案：
+
 - 检查是否忘记添加 `@Provides` 或 `@Binds` 方法
 - 确保模块已安装到正确的组件
+
 ```kotlin
 @Module
 @InstallIn(SingletonComponent::class) // 确保组件正确
@@ -2074,6 +2086,7 @@ object AppModule {
 错误：`[Dagger/DependencyCycle] ... is scoped with @ActivityScoped but was injected at @Singleton`
 
 解决方案：
+
 - 调整依赖的作用域，确保父组件不依赖子组件的对象
 - 移除不必要的作用域注解
 
@@ -2082,6 +2095,7 @@ object AppModule {
 错误：`Hilt ViewModel must be injected through a constructor`
 
 解决方案：
+
 - 确保 ViewModel 使用 `@HiltViewModel` 而非 `@ViewModelInject`
 - 检查构造函数是否使用 `@Inject` 注解
 
@@ -2094,6 +2108,7 @@ object AppModule {
 问题：Hilt/Dagger 错误消息过于复杂
 
 解决方案：
+
 - 从错误消息末尾开始阅读，找到根本原因
 - 尝试分步添加依赖，找出导致错误的更改
 - 使用 Gradle 选项 `-Pandroid.namespacedRClass=true` 简化错误消息
@@ -2103,6 +2118,7 @@ object AppModule {
 问题：跨模块依赖注入失败
 
 解决方案：
+
 - 确保依赖类和模块是 `public` 或在同一包内
 - 检查模块间的依赖关系是否正确声明
 - 使用 EntryPoint 在模块间共享依赖
@@ -2112,6 +2128,7 @@ object AppModule {
 问题：测试中替换真实实现很困难
 
 解决方案：
+
 - 使用 `@TestInstallIn` 替换整个模块
 - 对单个绑定使用 `@BindValue`
 - 确保测试使用 `HiltAndroidRule` 和 `HiltTestApplication`
@@ -2121,6 +2138,7 @@ object AppModule {
 问题：构建失败，找不到 Hilt 组件
 
 解决方案：
+
 - 检查 Gradle 插件版本是否匹配 Hilt 版本
 - 确保所有模块使用一致的 Hilt 版本
 - 尝试 Gradle 命令 `./gradlew clean build --refresh-dependencies`
@@ -2132,6 +2150,7 @@ object AppModule {
 1. **编译速度慢**：
 
 解决方案：
+
 - 使用 KSP 代替 KAPT（约 2 倍速度提升）
 - 启用 Gradle 构建缓存
 - 使用增量编译
@@ -2141,6 +2160,7 @@ object AppModule {
 2. **初始化慢**：
 
 解决方案：
+
 - 减少启动时需要的单例数量
 - 使用 Lazy<T> 延迟初始化不紧急的依赖
 - 避免长依赖链
@@ -2149,6 +2169,7 @@ object AppModule {
 3. **内存使用高**：
 
 解决方案：
+
 - 检查单例对象，确保不持有不必要的引用
 - 使用适当作用域，避免过早创建对象
 - 监控依赖对象的大小，必要时使用内存分析工具
@@ -2162,6 +2183,7 @@ object AppModule {
 问题：WorkManager 无法访问 Hilt 依赖
 
 解决方案：
+
 - 添加 `hilt-work` 依赖
 - 创建自定义 HiltWorkerFactory
 - 配置 WorkManager 初始化
@@ -2171,6 +2193,7 @@ object AppModule {
 问题：在较低 API 级别设备上运行时崩溃
 
 解决方案：
+
 - 使用 AndroidX 兼容性库
 - 对特定 API 功能使用条件检查
 - 测试所有目标 API 级别
@@ -2180,6 +2203,7 @@ object AppModule {
 问题：发布版本中 Hilt 注入失败
 
 解决方案：
+
 - 添加合适的 ProGuard 规则保留 Hilt 注解
 - 确保依赖类和构造函数未被混淆
 - 测试混淆后的构建
@@ -2200,7 +2224,7 @@ object AppModule {
 
 3. **工具和插件**：
    - [Hilt Navigation Compose](https://developer.android.com/jetpack/compose/libraries#hilt-navigation)
-   - [Hilt Extension Plugins](https://github.com/google/dagger/tree/master/java/dagger/hilt/android/plugin) 
+   - [Hilt Extension Plugins](https://github.com/google/dagger/tree/master/java/dagger/hilt/android/plugin)
 
 ## 案例分析
 
@@ -2219,6 +2243,7 @@ Hilt 已经在许多知名应用中成功应用：
    - **流媒体应用**：知名视频和音乐流媒体平台使用 Hilt 简化架构
 
 这些应用通过使用 Hilt 实现了：
+
 - 更清晰的代码组织
 - 更高的开发效率
 - 更好的代码可测试性
@@ -2345,6 +2370,7 @@ class ProductDetailFragmentTest {
 迁移到 Hilt 前后的代码对比：
 
 **迁移前**：手动依赖注入
+
 ```kotlin
 // 迁移前：手动依赖注入
 class CatalogRepositoryImpl(
@@ -2375,6 +2401,7 @@ class ProductDetailFragment : Fragment() {
 ```
 
 **迁移后**：使用 Hilt
+
 ```kotlin
 // 迁移后：Hilt 依赖注入
 class CatalogRepositoryImpl @Inject constructor(
@@ -2814,6 +2841,7 @@ Hilt 与其他平台相关概念的对比：
 4. **代码风格比较**：
 
 **Android/Hilt**：
+
 ```kotlin
 @HiltViewModel
 class UserViewModel @Inject constructor(
@@ -2827,6 +2855,7 @@ class UserFragment : Fragment() {
 ```
 
 **iOS/Swinject**：
+
 ```swift
 // 注册服务
 container.register(UserRepository.self) { _ in
@@ -2844,6 +2873,7 @@ class UserViewController: UIViewController {
 ```
 
 **Flutter/GetIt**：
+
 ```dart
 // 注册服务
 final getIt = GetIt.instance;
