@@ -19,7 +19,7 @@ Now in Android 应用
 
 ## 截图
 
-![展示"为你推荐"屏幕、"兴趣"屏幕和主题详情屏幕的截图](docs/images/screenshots.png "展示"为你推荐"屏幕、"兴趣"屏幕和主题详情屏幕的截图")
+![展示"为你推荐"屏幕、"兴趣"屏幕和主题详情屏幕的截图](docs/images/screenshots.png '展示"为你推荐"屏幕、"兴趣"屏幕和主题详情屏幕的截图')
 
 # 开发环境
 
@@ -70,6 +70,7 @@ Now in Android 应用
 这导致测试不那么脆弱，可能会执行更多的生产代码，而不仅仅是验证对模拟的特定调用。
 
 示例：
+
 - 在仪器测试中，使用临时文件夹存储用户的偏好设置，该文件夹在每次测试后都会被清除。
   这允许使用真实的 `DataStore` 并执行所有相关代码，而不是模拟数据更新流。
 
@@ -81,10 +82,11 @@ Now in Android 应用
 - `testDemoDebug` 针对 `demoDebug` 变体运行所有本地测试。截图测试将失败（请参阅下面的解释）。为避免这种情况，请在运行单元测试之前运行 `recordRoborazziDemoDebug`。
 - `connectedDemoDebugAndroidTest` 针对 `demoDebug` 变体运行所有仪器测试。
 
-> [!注意]
+> [!Note]
 > 你不应该运行 `./gradlew test` 或 `./gradlew connectedAndroidTest`，因为这将针对**所有**构建变体执行测试，这既不必要，也会导致失败，因为只有 `demoDebug` 变体受支持。其他变体没有任何测试（尽管这在将来可能会改变）。
 
 ## 截图测试
+
 截图测试会对应用中的屏幕或 UI 组件进行截图，并将其与已知正确渲染的先前记录的截图进行比较。
 
 例如，Now in Android 有[截图测试](https://github.com/android/nowinandroid/blob/main/app/src/testDemo/kotlin/com/google/samples/apps/nowinandroid/ui/NiaAppScreenSizesScreenshotTests.kt)来验证导航在不同屏幕尺寸上是否正确显示（[已知正确的截图](https://github.com/android/nowinandroid/tree/main/app/src/testDemo/screenshots)）。
@@ -95,13 +97,14 @@ Now In Android 使用 [Roborazzi](https://github.com/takahirom/roborazzi) 对某
 - `recordRoborazziDemoDebug` 记录新的"已知正确"截图。当你对 UI 进行更改并手动验证它们正确渲染时，使用此命令。截图将存储在 `modulename/src/test/screenshots` 中。
 - `compareRoborazziDemoDebug` 在失败的测试和已知正确的图像之间创建比较图像。这些也可以在 `modulename/src/test/screenshots` 中找到。
 
-> [!注意]
-> **关于失败的截图测试的说明**   
+> [!Note]
+> **关于失败的截图测试的说明**
 > 此代码库中存储的已知正确截图是在 CI 上使用 Linux 录制的。其他平台可能（很可能会）生成略有不同的图像，导致截图测试失败。在非 Linux 平台上工作时，解决这个问题的一种方法是在开始工作之前在 `main` 分支上运行 `recordRoborazziDemoDebug`。在做出更改后，`verifyRoborazziDemoDebug` 将仅识别合法更改。
 
 有关截图测试的更多信息，[请查看这个演讲](https://www.droidcon.com/2023/11/15/easy-screenshot-testing-with-compose/)。
 
 # UI
+
 该应用使用 [Material 3 指南](https://m3.material.io/)设计。在 [Now in Android Material 3 案例研究](https://goo.gle/nia-figma)中了解更多关于设计过程的信息并获取设计文件（设计资产[也可作为 PDF 获取](docs/Now-In-Android-Design-File.pdf)）。
 
 屏幕和 UI 元素完全使用 [Jetpack Compose](https://developer.android.com/jetpack/compose) 构建。
@@ -129,7 +132,7 @@ Now In Android 使用 [Roborazzi](https://github.com/takahirom/roborazzi) 对某
 它包含允许在应用启动期间对关键用户路径进行 AOT 编译的规则。
 有关基准配置文件的更多信息，请阅读[此文档](https://developer.android.com/studio/profile/baselineprofiles)。
 
-> [!注意]
+> [!Note]
 > 对于涉及更改应用启动代码的发布版本，需要重新生成基准配置文件。
 
 要生成基准配置文件，请选择 `benchmark` 构建变体，并在 AOSP Android 模拟器上运行 `BaselineProfileGenerator` 基准测试。
@@ -149,4 +152,4 @@ Now In Android 使用 [Roborazzi](https://github.com/takahirom/roborazzi) 对某
 
 # 许可证
 
-**Now in Android** 根据 Apache License（版本 2.0）的条款分发。有关更多信息，请参阅[许可证](LICENSE)。 
+**Now in Android** 根据 Apache License（版本 2.0）的条款分发。有关更多信息，请参阅[许可证](LICENSE)。
