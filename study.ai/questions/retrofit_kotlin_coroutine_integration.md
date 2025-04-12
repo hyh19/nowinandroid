@@ -1,4 +1,4 @@
-# Retrofit 与 Kotlin 协程的集成分析
+# # Retrofit 与 Kotlin 协程是如何集成的？请指出 suspend 函数在 API 接口中的使用位置
 
 ## 集成概述
 
@@ -122,4 +122,4 @@ override suspend fun getTopics(): List<Topic> = withContext(ioDispatcher) {
 4. **异常处理**：使用标准的 try-catch 机制处理网络异常
 5. **组合操作**：轻松组合多个网络请求（如并行请求、串行请求等）
 
-这种集成方式使 Now in Android 项目能够以简洁、高效的方式处理网络请求，同时充分利用 Kotlin 协程的结构化并发特性。 
+这种集成方式使 Now in Android 项目能够以简洁、高效的方式处理网络请求，同时充分利用 Kotlin 协程的结构化并发特性。

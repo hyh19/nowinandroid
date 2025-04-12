@@ -1,4 +1,4 @@
-# Now in Android 项目 API 接口组织与定义
+# API 接口如何组织和定义？请列出主要 API 接口类、数据模型和序列化方式的相对路径
 
 ## API 接口组织方式
 
@@ -32,6 +32,7 @@ Now in Android 项目采用了清晰的 API 接口组织方式，主要基于 Re
    - 路径：`core/network/src/main/kotlin/com/google/samples/apps/nowinandroid/core/network/model/NetworkTopic.kt`
    - 功能：表示主题（Topic）的网络数据模型
    - 结构：
+
      ```kotlin
      @Serializable
      data class NetworkTopic(
@@ -49,6 +50,7 @@ Now in Android 项目采用了清晰的 API 接口组织方式，主要基于 Re
    - 路径：`core/network/src/main/kotlin/com/google/samples/apps/nowinandroid/core/network/model/NetworkNewsResource.kt`
    - 功能：表示新闻资源的网络数据模型
    - 结构：
+
      ```kotlin
      @Serializable
      data class NetworkNewsResource(
@@ -74,6 +76,7 @@ Now in Android 项目采用了清晰的 API 接口组织方式，主要基于 Re
 1. **序列化配置**：
    - 路径：`core/network/src/main/kotlin/com/google/samples/apps/nowinandroid/core/network/di/NetworkModule.kt`
    - 配置：
+
      ```kotlin
      @Provides
      @Singleton
@@ -85,6 +88,7 @@ Now in Android 项目采用了清晰的 API 接口组织方式，主要基于 Re
 2. **Retrofit 序列化整合**：
    - 路径：`core/network/src/main/kotlin/com/google/samples/apps/nowinandroid/core/network/retrofit/RetrofitNiaNetwork.kt`
    - 整合代码：
+
      ```kotlin
      .addConverterFactory(
          networkJson.asConverterFactory("application/json".toMediaType()),
@@ -94,6 +98,7 @@ Now in Android 项目采用了清晰的 API 接口组织方式，主要基于 Re
 3. **模型标注**：
    - 网络模型类使用 `@Serializable` 注解标记，以支持 Kotlinx.Serialization 的自动序列化
    - 例如：
+
      ```kotlin
      @Serializable
      data class NetworkTopic(...)
@@ -102,9 +107,10 @@ Now in Android 项目采用了清晰的 API 接口组织方式，主要基于 Re
 4. **依赖配置**：
    - 路径：`core/network/build.gradle.kts`
    - 依赖：
+
      ```kotlin
      implementation(libs.kotlinx.serialization.json)
      implementation(libs.retrofit.kotlin.serialization)
      ```
 
-通过这种组织方式，Now in Android 项目实现了清晰、灵活且可测试的网络接口架构，同时支持不同环境的特定实现需求。 
+通过这种组织方式，Now in Android 项目实现了清晰、灵活且可测试的网络接口架构，同时支持不同环境的特定实现需求。
