@@ -506,7 +506,7 @@ class MyApplication : Application() {
         fun getInstance(): MyApplication = instance
     }
 }
-``` 
+```
 
 ### 基础使用场景
 
@@ -1225,6 +1225,7 @@ private fun openPdfFile(file: File) {
         showError("没有应用可以打开 PDF 文件")
     }
 }
+```
 
 ## OkHttp 工作流程图
 
@@ -1827,6 +1828,7 @@ class LoginActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
     }
 }
+```
 
 ### RESTful API 客户端
 
@@ -2329,6 +2331,7 @@ data class Address(
     val detail: String,
     val isDefault: Boolean = false
 )
+```
 
 ### 图片加载与缓存
 
@@ -2662,4 +2665,5 @@ class ImageActivity : AppCompatActivity() {
         // 不需要在每个 Activity 销毁时都关闭加载器，这里只是示例
         // imageLoader.shutdown()
     }
-} 
+}
+```
