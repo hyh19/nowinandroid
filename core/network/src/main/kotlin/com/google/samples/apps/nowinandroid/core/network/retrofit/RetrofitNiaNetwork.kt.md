@@ -225,7 +225,7 @@ flowchart TD
 
 ### API 使用分析
 
-#### **重要 API**：
+#### **重要 API**
 
 | API 名称 | 用途 | 文档链接 | 类似 iOS/Flutter API |
 |---------|------|---------|------------------|
@@ -234,7 +234,7 @@ flowchart TD
 | OkHttp | HTTP 客户端 | [OkHttp](https://square.github.io/okhttp/) | URLSession (iOS) / http package (Flutter) |
 | Dagger/Hilt | 依赖注入 | [Hilt](https://dagger.dev/hilt/) | Swinject (iOS) / get_it (Flutter) |
 
-#### **第三方库**：
+#### **第三方库**
 
 - Retrofit：简化 HTTP 请求的库
   - 与 iOS 生态系统对比：类似于 Alamofire 或 Moya
@@ -243,7 +243,7 @@ flowchart TD
   - 与 iOS 生态系统对比：类似于 Codable 或 SwiftyJSON
   - 与 Flutter 生态系统对比：类似于 json_serializable 或 built_value
 
-#### **Android 框架 API**：
+#### **Android 框架 API**
 
 - `androidx.tracing.trace`：用于性能追踪
   - 与 iOS 框架对比：类似于 Instruments 中的 signpost
@@ -251,27 +251,27 @@ flowchart TD
 
 ### 注意事项与最佳实践
 
-#### **优点**：
+#### **优点**
 
 1. 使用依赖注入提高代码模块化和可测试性
 2. 使用 Lazy 加载避免在主线程初始化 OkHttp
 3. 接口分离原则（ISP）通过接口定义网络操作
 4. 使用 Kotlin 协程简化异步代码
 
-#### **改进空间**：
+#### **改进空间**
 
 1. 可添加网络错误处理机制和重试逻辑
 2. 可实现缓存策略以减少网络请求
 3. 可添加请求和响应的日志记录
 4. 可实现请求取消和超时处理
 
-#### **风险点**：
+#### **风险点**
 
 1. 没有明显的错误处理机制
 2. 未实现网络状态检查
 3. 缺少请求速率限制和负载管理
 
-#### **初学者指南**：
+#### **初学者指南**
 
 - 对 Android 初学者：
   - 学习 Retrofit 基本用法和配置
@@ -286,15 +286,15 @@ flowchart TD
   - 将 Retrofit 与 Axios/Fetch API 对比学习
   - 将 Kotlin 协程与 JavaScript Promise/async/await 对比
 
-#### **替代方案**：
+#### **替代方案**
 
 1. 使用 Ktor Client 替代 Retrofit
 2. 使用 Moshi 替代 Kotlinx.Serialization
 3. 使用 Flow API 返回流式数据而非单次响应
 
-#### **跨平台开发考虑**：
+#### **跨平台开发考虑**
 
 1. 在跨平台开发中，可以使用类似的架构设计模式
 2. Flutter 可使用 Repository 模式和 Dio 实现类似功能
 3. React Native 可实现类似的网络层抽象
-4. Kotlin Multiplatform 可共享网络数据模型和序列化逻辑 
+4. Kotlin Multiplatform 可共享网络数据模型和序列化逻辑
