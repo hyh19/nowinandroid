@@ -216,16 +216,43 @@ flowchart TD
   - `APPLICATION_ID`：应用的包名
   - `VERSION_CODE` 和 `VERSION_NAME`：应用版本信息
   - 自定义字段：如此处的 `BACKEND_URL`
-- **配置方式**：在 `build.gradle` 文件中使用 `buildConfigField` 定义自定义字段
 
-  ```groovy
-  buildConfigField "String", "BACKEND_URL", "\"https://api.example.com/\""
-  ```
+- **敏感信息处理**：
+  - 项目使用 `secrets-gradle-plugin` 插件管理敏感配置
+  - 配置文件：
+
+    ```properties
+    # secrets.defaults.properties（默认配置，可提交到版本控制）
+    BACKEND_URL="http://example.com"
+    ```
+
+  - Gradle 配置：
+
+    ```kotlin
+    // build.gradle.kts
+    secrets {
+        defaultPropertiesFileName = "secrets.defaults.properties"
+    }
+    ```
+
+  - 工作原理：
+    1. 插件会查找 `secrets.properties`（本地配置，不提交到版本控制）
+    2. 如果找不到，则使用 `secrets.defaults.properties` 中的默认值
+    3. 配置值会在构建时注入到 `BuildConfig` 类中
+    4. 代码通过 `BuildConfig.BACKEND_URL` 安全地访问这些值
 
 - **优势**：
   - 避免硬编码配置值
-  - 支持不同构建变体（如开发环境和生产环境）使用不同的配置
+  - 支持不同构建变体使用不同的配置
   - 提高代码安全性，敏感信息不直接写入代码
+  - 通过默认配置文件支持 CI/CD 构建
+  - 本地开发可以使用不同的配置而不影响其他开发者
+
+- **最佳实践**：
+  - 将 `secrets.properties` 添加到 `.gitignore`
+  - 提供 `secrets.defaults.properties` 作为模板和默认值
+  - 在文档中说明如何配置本地开发环境
+  - 在 CI/CD 环境中通过环境变量覆盖这些值
 
 ### Kotlin 语法分析
 
