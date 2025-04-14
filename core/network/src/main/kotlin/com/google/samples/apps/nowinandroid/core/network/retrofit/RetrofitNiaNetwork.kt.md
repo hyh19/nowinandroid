@@ -50,6 +50,12 @@
 | getTopicChangeList | after: Int? | List<NetworkChangeList> | 获取主题变更列表 |
 | getNewsResourcesChangeList | after: Int? | List<NetworkChangeList> | 获取新闻资源变更列表 |
 
+- **变更列表方法业务含义**：
+  - `getTopicChangeList` 和 `getNewsResourcesChangeList` 方法用于实现增量数据同步。这些方法从服务器获取自上次同步以来的数据变更记录。
+  - 参数 `after` 表示客户端当前已知的最新版本号。服务器会返回版本号大于此值的所有变更记录。
+  - 这种机制类似于 Git 的拉取操作，只获取新的变更而非全量数据，减少网络传输和处理开销。
+  - 当 `after` 为 null 时，服务器将返回所有变更记录（初始同步）。
+
 - **UML 类图**：
 
 ```mermaid
@@ -118,8 +124,8 @@ classDiagram
 
 ```mermaid
 classDiagram
-    NiaNetworkDataSource <|-- RetrofitNiaNetwork
-    RetrofitNiaNetwork --> RetrofitNiaNetworkApi
+    NiaNetworkDataSource <|-- RetrofitNiaNetwork : 实现接口
+    RetrofitNiaNetwork --> RetrofitNiaNetworkApi : 依赖使用
     
     class NiaNetworkDataSource {
         <<interface>>
@@ -200,6 +206,27 @@ flowchart TD
   - Dart：类似于类内部定义的静态常量
   - JavaScript：类似于模块内的常量
 
+#### `BuildConfig` 基础知识
+
+`BuildConfig` 是 Android 构建系统自动生成的类，包含应用构建时的配置信息：
+
+- **作用**：在编译时将构建配置信息注入到代码中，如版本号、调试标志和自定义属性
+- **常见字段**：
+  - `DEBUG`：布尔值，表示是否为调试构建
+  - `APPLICATION_ID`：应用的包名
+  - `VERSION_CODE` 和 `VERSION_NAME`：应用版本信息
+  - 自定义字段：如此处的 `BACKEND_URL`
+- **配置方式**：在 `build.gradle` 文件中使用 `buildConfigField` 定义自定义字段
+
+  ```groovy
+  buildConfigField "String", "BACKEND_URL", "\"https://api.example.com/\""
+  ```
+
+- **优势**：
+  - 避免硬编码配置值
+  - 支持不同构建变体（如开发环境和生产环境）使用不同的配置
+  - 提高代码安全性，敏感信息不直接写入代码
+
 ### Kotlin 语法分析
 
 #### **空安全特性**
@@ -222,6 +249,33 @@ flowchart TD
 - 与 Swift 的 async/await 对比：概念类似但语法不同
 - 与 JavaScript Promise/async/await 对比：概念类似但协程提供更多控制
 - 与 Dart Future/async/await 对比：概念类似但协程更轻量级
+
+#### **Dagger Lazy 加载与 callFactory**
+
+- **`dagger.Lazy<Call.Factory>`**：
+  - **功能**：Dagger 提供的懒加载容器，它延迟初始化对象，直到首次调用 `get()` 方法
+  - **作用**：避免在注入时就创建可能开销较大的对象，如 OkHttp 实例
+  - **原理**：在依赖注入时只注入一个代理对象，实际对象在首次访问时才创建
+  - **优势**：减少应用启动时间，降低内存占用，特别是对于可能不会立即使用的重量级对象
+
+- **`.callFactory { okhttpCallFactory.get().newCall(it) }`**：
+  - **功能**：为 Retrofit 提供一个创建 HTTP 请求的工厂方法
+  - **作用**：通过 Lambda 表达式延迟获取 OkHttp 客户端实例，避免在主线程初始化
+  - **工作方式**：
+    - `callFactory` 方法接收一个函数类型参数，该函数负责创建 HTTP 请求
+    - 当 Retrofit 需要发起请求时，才调用这个函数
+    - 函数内部通过 `okhttpCallFactory.get()` 懒加载获取 OkHttp 客户端
+    - 然后使用客户端的 `newCall(it)` 方法创建具体的请求
+  - **代码解析**：
+
+    ```kotlin
+    .callFactory { request -> // 参数 request 是 Retrofit 创建的 HTTP 请求
+        okhttpCallFactory.get() // 懒加载获取 OkHttp 客户端
+            .newCall(request) // 使用客户端创建请求
+    }
+    ```
+
+  - **性能优势**：避免在应用启动阶段初始化 OkHttp，减少启动时间
 
 ### API 使用分析
 
